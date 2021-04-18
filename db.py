@@ -67,14 +67,14 @@ class SQLiteDataBase:
 
     def select(self, table, where={}, *columns):
         columns = ', '.join(columns) if columns else '*'
-        where_sql = ' WHERE ' + ' AND '.join([f'{column} = ?' for column in where.keys()]) if where else ''
+        where_sql = (' WHERE ' + ' AND '.join([f'{column} = ?' for column in where.keys()])) if where else ''
         return self.run(f'SELECT {columns} FROM {table}{where_sql}', tuple(where.values()))
 
     def update(self, table, where={}, **columns):
         columns_sql = ', '.join([f'{column} = ?' for column in columns.keys()])
-        where_sql = ' WHERE ' + ' AND '.join([f'{column} = ?' for column in where.keys()]) if where else ''
+        where_sql = (' WHERE ' + ' AND '.join([f'{column} = ?' for column in where.keys()])) if where else ''
         return self.run(f'UPDATE {table} SET {columns_sql}{where_sql}', tuple(columns.values()) + tuple(where.values()))
 
     def delete(self, table, where={}):
-        where_sql = ' WHERE ' + ' AND '.join([f'{column} = ?' for column in where.keys()]) if where else ''
+        where_sql = (' WHERE ' + ' AND '.join([f'{column} = ?' for column in where.keys()])) if where else ''
         return self.run(f'DELETE FROM {table}{where_sql}', tuple(where.values()))
